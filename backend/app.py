@@ -91,16 +91,18 @@
 # app.py
 
 
-
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+app = FastAPI()
+
+# ✅ CORS MUST COME AFTER app is created
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # for demo (later restrict)
+    allow_origins=["*"],   # allow Netlify
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
