@@ -90,6 +90,18 @@
 
 # app.py
 
+
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # for demo (later restrict)
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
