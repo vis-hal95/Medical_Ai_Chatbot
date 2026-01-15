@@ -1,0 +1,25 @@
+
+
+# Python
+backend/.venv/
+__pycache__/
+
+# AI models & indexes
+backend/models/
+*.index
+*.jsonl
+
+# Datasets
+backend/data/
+*.csv
+
+# Node / React
+node_modules/
+dist/
+build/
+
+# Env files
+.env
+.env.local
+
+.DS_Store
