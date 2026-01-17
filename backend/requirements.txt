@@ -1,20 +1,3 @@
-# fastapi
-# uvicorn[standard]
-# sentence-transformers
-# faiss-cpu
-# openai
-# pandas
-# tqdm
-# scikit-learn
-# transformers
-# datasets
-# numpy
-# python-multipart
-
-
-
-
-
 fastapi
 uvicorn[standard]
 sentence-transformers
@@ -27,3 +10,6 @@ transformers
 datasets
 numpy
 python-multipart
+
+
+
