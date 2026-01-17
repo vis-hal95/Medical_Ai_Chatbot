@@ -231,19 +231,20 @@
 
 
 
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import os
 
-# --------------------------------------------------
+# ------------------------------------------------------
 # FastAPI app (MUST be first)
-# --------------------------------------------------
+# ------------------------------------------------------
 app = FastAPI(title="Medical AI Backend")
 
-# --------------------------------------------------
-# CORS (required for Netlify)
-# --------------------------------------------------
+# ------------------------------------------------------
+# CORS (required for Netlify frontend)
+# ------------------------------------------------------
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],   # OK for demo
@@ -251,9 +252,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --------------------------------------------------
-# Health check (Render needs this)
-# --------------------------------------------------
+# ------------------------------------------------------
+# Health checks (Render requires this)
+# ------------------------------------------------------
 @app.get("/")
 def root():
     return {"status": "running"}
@@ -262,21 +263,21 @@ def root():
 def health():
     return {"status": "ok"}
 
-# --------------------------------------------------
-# Lazy-loaded ML resources
-# --------------------------------------------------
+# ------------------------------------------------------
+# Lazy-loaded ML resources (CRITICAL)
+# ------------------------------------------------------
 model = None
 index = None
-resources_loaded = False
+data_loaded = False
 
 def load_resources():
     """
     Load heavy ML resources ONLY when needed.
-    This prevents Render startup timeout.
+    Prevents Render startup timeout.
     """
-    global model, index, resources_loaded
+    global model, index, data_loaded
 
-    if resources_loaded:
+    if data_loaded:
         return
 
     print("Loading ML resources...")
@@ -292,27 +293,27 @@ def load_resources():
     else:
         index = None
 
-    resources_loaded = True
+    data_loaded = True
     print("ML resources loaded")
 
-# --------------------------------------------------
+# ------------------------------------------------------
 # Request schema
-# --------------------------------------------------
+# ------------------------------------------------------
 class ChatRequest(BaseModel):
     query: str
 
-# --------------------------------------------------
-# Chat endpoint
-# --------------------------------------------------
+# ------------------------------------------------------
+# Chat API
+# ------------------------------------------------------
 @app.post("/api/chat")
 def chat(req: ChatRequest):
-    load_resources()   # 🔥 critical
+    load_resources()   # 🔥 THIS IS THE KEY LINE
 
     if model is None:
         return {"answer": "Model not available"}
 
-    # Dummy response (replace with your FAISS logic)
+    # TODO: replace with FAISS search logic later
     return {
         "query": req.query,
-        "answer": "Backend is working correctly 🎉"
+        "answer": "Backend is running correctly 🎉"
     }
